@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  ringtoolsweb:
+    image: umbrel-ringtools-web
+    restart: on-failure
+    stop_grace_period: 1m
+    ports:
+      - 5000:5000
+    volumes:
+      # - ./.env:/code/.env
+       - ${LND_DATA_DIR}:/lnd:ro
+    environment:
+      CERT: "/lnd/data/tls.cert"
+      MACAROON: "/lnd/data/chain/bitcoin/$BITCOIN_NETWORK/readonly.macaroon"
+      LNDHOST: "https://$LND_IP:$LND_REST_PORT"
+      # LNDHOST: umbrel:10009
